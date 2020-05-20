@@ -1,0 +1,52 @@
+const Sequelize = require('sequelize')
+const crypto = require('crypto')
+const db = require('../db')
+
+const User = db.define('user',
+{
+  name: { 
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  email: { 
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+      isEmail: true
+    }
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    get() {
+      return () => this.getDataValue('password')
+    }
+  },
+  salt: {
+    type: Sequelize.STRING,
+    get() {
+      return () => this.getDataValue('salt')
+    }
+  },
+  balance: {
+    type: Sequelize.DECIMAL(10,2),
+    defaultValue: 5000.00
+  }
+})
+
+module.exports = User
+
+// class methods
+User.generateSalt = function() {
+  return crypto.randomBytes(16).toString('base64')
+}
+
+User.encryptPassword = function(plainText, salt) {
+  return crypto
+    .createHash('RSA-SHA256')
+    .update(plainText)
+    .update(salt)
+    .digest('hex')
+}
