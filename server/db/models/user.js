@@ -50,3 +50,22 @@ User.encryptPassword = function(plainText, salt) {
     .update(salt)
     .digest('hex')
 }
+
+// hooks
+const setSaltAndPassword = user => {
+  if(user.changed('password')){
+    user.salt = User.generateSalt()
+    user.password = User.encryptPassword(user.password(), user.salt())
+  }
+}
+
+User.beforeCreate(setSaltAndPassword)
+User.beforeUpdate(setSaltAndPassword)
+User.beforeBulkCreate(users => {
+  users.forEach(serSaltAndPassword) // for seeding
+})
+
+// instance methods
+User.prototype.correctPassword = function(enteredPassword) {
+  return User.encryptPassword(enteredPassword, this.salt()) === this.password()
+}
