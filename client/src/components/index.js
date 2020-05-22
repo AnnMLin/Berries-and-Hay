@@ -1,5 +1,5 @@
 export {default as CreateAccount} from './CreateAccount'
 export {default as SignIn} from './SignIn'
-export {default as AllStocks} from './AllStocks'
 export {default as Transactions} from './Transactions'
 export {default as Portfolio} from './Portfolio'
+export {default as SignUpForm} from './SignUpForm'

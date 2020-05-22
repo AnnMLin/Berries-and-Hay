@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Route, Switch } from 'react-router-dom'
-import { AllStocks, CreateAccount, SignIn, Transactions, Portfolio } from './components'
+import { CreateAccount, SignIn, Transactions, Portfolio } from './components'
 
 const App = () => {
   const [users, setUsers] = useState([])
@@ -24,8 +24,7 @@ const App = () => {
         'Loading...'}
       </div>
       <Switch>
-        <Route exact path='/' component={AllStocks} />
-        <Route path='/create-account' component={CreateAccount} />
+        <Route exact path='/' component={CreateAccount} />
         <Route path='/sign-in' component={SignIn} />
         <Route path='/transactions' component={Transactions} />
         <Route path='/portfolio' component={Portfolio} />
