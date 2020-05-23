@@ -11,7 +11,7 @@ export const gotUser = user => ({type: GOT_USER, user})
 // THUNK CREATOR
 export const createUser = ({name, email, password}) => dispatch => {
   // SEND CREATE USER REQUEST TO SERVER
-  axios.post('/users/createUser', {name, email, password})
+  axios.post('/auth/createUser', {name, email, password})
     .then(user => {
       dispatch(actions.clearWarning())
       // LOAD USER TO STATE
