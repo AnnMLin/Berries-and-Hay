@@ -1,8 +1,9 @@
 import axios from 'axios'
 import actions from '.'
+import history from '../../history'
 
 // ACTION TYPES
-const GOT_USER = 'GOT_USER'
+export const GOT_USER = 'GOT_USER'
 
 // ACTION CREATOR
 export const gotUser = user => ({type: GOT_USER, user})
@@ -13,10 +14,12 @@ export const createUser = ({name, email, password}) => dispatch => {
   axios.post('/users/createUser', {name, email, password})
     .then(user => {
       dispatch(actions.clearWarning())
-      // load user data to state
-      // redirect to homepage
+      // LOAD USER TO STATE
+      dispatch(gotUser(user.data))
+      // REDIRECT TO PORTFOLIO
+      console.log('HISTORY:', history)
+      history.push('/home/portfolio')
       // do those auth things
-      console.log(user.data)
     })
     .catch(err => {
       // SEND WARNING TO CLIENT

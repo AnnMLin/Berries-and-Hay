@@ -39,7 +39,6 @@ const SignUpForm = () => {
     return expression.test(String(email).toLowerCase())
   }
 
-
   return (
     <form id='sign-up-form' className='form' onSubmit={handleSubmit}>
       <div id='sign-up-name'>
