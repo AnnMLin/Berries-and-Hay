@@ -21,6 +21,12 @@ export const buyShare = (symbol, qty) => (dispatch, getState) => (
       if(balance >= cost) {
         const id = state.user.id
         dispatch(updateBalance(balance-cost, id))
+        // add transaction to db
+        dispatch(actions.createTransaction({
+          name: symbol,
+          quantity: qty,
+          price: cost
+        }))
       }
       // if false => sent warning
       else {
@@ -36,12 +42,8 @@ export const buyShare = (symbol, qty) => (dispatch, getState) => (
 
 export const updateBalance = (balance, id) => (dispatch, getState) => {
   axios.put(`/user/${id}/updateBalance/${balance}`)
-    .then(() => {
-      dispatch(updatedBalance(balance))
-    })
-    .then(() => {
-      const state = getState()
-      console.log(state.user.balance)
+    .then(balance => {
+      dispatch(updatedBalance(balance.data))
     })
     .catch(err => {
       console.log('Error updating use balance:', err)

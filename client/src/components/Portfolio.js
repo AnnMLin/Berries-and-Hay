@@ -36,7 +36,7 @@ const Portfolio = () => {
 
   useEffect(() => {
     setState({ticker : '', qty : 0})
-  }, [])
+  }, [user.balance])
 
   return (
     <div id='portfolio'>

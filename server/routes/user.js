@@ -8,10 +8,13 @@ router.put('/:id/updateBalance/:balance', (req, res, next) => {
   User.update({ balance }, {
     where: {
       id : req.params.id
-    }
+    },
+    returning: true,
+    plain: true
   })
-    .then(() => {
-      res.status(200).end()
+    .then(user => {
+      console.log('USER', user)
+      res.status(200).send(user[1].dataValues.balance)
     })
     .catch(err => {
       console.log('Error updating user balance:', err)
