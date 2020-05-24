@@ -1,5 +1,6 @@
 import { createUser, GOT_USER, getUser, getMe, logout } from './user'
 import { showWarning, clearWarning, SHOW_WARNING, CLEAR_WARNING } from './warning'
+import { buyShare, UPDATED_BALANCE, updatedBalance } from './ticker'
 
 const actions = {
   createUser,
@@ -7,13 +8,16 @@ const actions = {
   showWarning,
   clearWarning,
   getMe,
-  logout
+  logout,
+  buyShare,
+  updatedBalance
 }
 
 export const actionTypes = {
   GOT_USER,
   SHOW_WARNING,
-  CLEAR_WARNING
+  CLEAR_WARNING,
+  UPDATED_BALANCE
 }
 
 export default actions

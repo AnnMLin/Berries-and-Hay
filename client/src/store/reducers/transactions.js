@@ -1,19 +1,17 @@
 import { actionTypes } from '../actions'
-const { GOT_USER, UPDATED_BALANCE } = actionTypes
+const { GOT_TRANSACTIONS } = actionTypes 
 
 // INITIAL STATE
-const initialState = {}
+const initialState = []
 
 // REDUCER
 const reducer = (state = initialState, action) => {
   switch(action.type) {
-    case GOT_USER:
-      return {...action.user}
-    case UPDATED_BALANCE:
-      return {...state, balance : action.balance}
+    case GOT_TRANSACTIONS:
+      return {...action.transactions}
     default:
       return state
   }
-}
+} 
 
 export default reducer
