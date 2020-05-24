@@ -3,7 +3,7 @@ import { SignUpForm } from '.'
 
 const CreateUser = () => {
   return (
-    <div id='create-account'>
+    <div id='create-user'>
       <SignUpForm />
     </div>
   )

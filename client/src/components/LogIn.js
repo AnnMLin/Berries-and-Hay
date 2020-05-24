@@ -1,8 +1,11 @@
 import React from 'react'
+import { SignInForm } from '.'
 
 const LogIn = () => {
   return (
-    <div id='sign-in'>Sign In</div>
+    <div id='log-in'>
+      <SignInForm />
+    </div>
   )
 }
 

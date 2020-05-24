@@ -1,10 +1,13 @@
-import { createUser, GOT_USER } from './user'
+import { createUser, GOT_USER, getUser, getMe, logout } from './user'
 import { showWarning, clearWarning, SHOW_WARNING, CLEAR_WARNING } from './warning'
 
 const actions = {
   createUser,
+  getUser,
   showWarning,
-  clearWarning
+  clearWarning,
+  getMe,
+  logout
 }
 
 export const actionTypes = {

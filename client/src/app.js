@@ -1,34 +1,34 @@
-import React, {useState, useEffect} from 'react';
-import { Route, Switch } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom'
 import { CreateUser, LogIn, Home } from './components'
+import actions from './store/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
 const App = () => {
-  // const [users, setUsers] = useState([])
+  
+  const user = useSelector(state => state.user)
+  const dispatch = useDispatch()
+  const history = useHistory()
 
-  // useEffect(() => {
-  //   fetch('/users')
-  //     .then(res => res.json())
-  //     .then(users => setUsers(users))
-  // }, [])
+  useEffect(() => {
+    dispatch(actions.getMe())
+  }, [])
+
+  useEffect(() => {
+    if(user.id) {
+      history.push('/home')
+    }
+  }, [user])
+
   return (
     <div id='app'>
-      {/* <div>
-        {users.length ?
-        users.map(user => (
-          <div key={user.id}>
-            <div>{user.id}</div>
-            <div>{user.email}</div>
-            <div>{user.password}</div>
-          </div>
-        )) :
-        'Loading...'}
-      </div> */}
       <Switch>
         <Route exact path='/' component={LogIn} />
         <Route path='/create-user' component={CreateUser} />
-        {/* <Route path='/transactions' component={Transactions} />
-        <Route path='/portfolio' component={Portfolio} /> */}
-        <Route path='/Home' component={Home} />
+        {user.id &&
+          <Route path='/Home' component={Home} /> 
+        }
+        <Route path='/*' component={LogIn} />
       </Switch>
     </div>
   )

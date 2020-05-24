@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import actions from '../store/actions'
-import { useHistory } from 'react-router-dom'
+import { useHistory} from 'react-router-dom'
 
-const SignUpForm = () => {
+const SignInForm = () => {
 
-  const [state, setState] = useState({name: '', email: '', password: ''})
+  const [state, setState] = useState({email: '', password: ''})
   const warning = useSelector(state => state.warning)
   
   const dispatch = useDispatch()
@@ -19,7 +19,7 @@ const SignUpForm = () => {
     e.preventDefault()
 
     // VALIDATE ALL FIELDS
-    if(!state.name || !state.email || !state.password) {
+    if(!state.email || !state.password) {
       // SHOW WARNING
       dispatch(actions.showWarning('All fields required *'))
       return
@@ -33,7 +33,7 @@ const SignUpForm = () => {
     dispatch(actions.clearWarning())
 
     // DISPATCH CREATE USER
-    dispatch(actions.createUser(state))
+    dispatch(actions.getUser(state))
       .then(() => {
         history.push('/home')
       })
@@ -47,16 +47,12 @@ const SignUpForm = () => {
   }
 
   return (
-    <form id='sign-up-form' className='form' onSubmit={handleSubmit}>
-      <div id='sign-up-name'>
-        <div>Name:</div>
-        <input type='text' name='name' value={state.name} onChange={handleChange}/>
-      </div>
-      <div id='sign-up-email'>
+    <form id='sign-in-form' className='form' onSubmit={handleSubmit}>
+      <div id='sign-in-email'>
         <div>Email:</div>
         <input type='text' name='email' value={state.email} onChange={handleChange}/>
       </div>
-      <div id='sign-up-password'>
+      <div id='sign-in-password'>
         <div>Password:</div>
         <input type='text' name='password' value={state.password} onChange={handleChange}/>
       </div>
@@ -73,4 +69,4 @@ const SignUpForm = () => {
   )
 }
 
-export default SignUpForm
+export default SignInForm

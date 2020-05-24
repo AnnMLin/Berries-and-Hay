@@ -6,9 +6,10 @@ const initialState = {}
 
 // REDUCER
 const reducer = (state = initialState, action) => {
+  console.log(action.user)
   switch(action.type) {
     case GOT_USER:
-      return action.user
+      return {...action.user}
     default:
       return state
   }
