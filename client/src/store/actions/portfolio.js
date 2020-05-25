@@ -29,6 +29,13 @@ export const makePortfolio = () => (dispatch, getState) => {
       .then(price => {
         portfolio[symbol].value = price * portfolio[symbol].quantity
       })
+      .then(() => {
+        axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/ohlc?token=${process.env.REACT_APP_IEX_SANDBOX_TOKEN}`)
+          .then(res => res.data.open.price)
+          .then(openPrice => {
+            portfolio[symbol].openPrice = openPrice
+          })
+      })
   ))).then(() => {
     dispatch(gotPortfolio(portfolio))
   })
