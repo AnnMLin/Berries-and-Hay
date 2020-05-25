@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import actions from '../store/actions'
+// import axios from 'axios'
 
 const Portfolio = () => {
   const user = useSelector(state => state.user)
   const warning = useSelector(state => state.warning)
   const dispatch = useDispatch()
+  const portfolio = useSelector(state => state.portfolio)
+
+  const transactions = useSelector(state => state.transactions)
 
   const [state, setState] = useState({ticker : '', qty : 0})
+  // const [portfolio, setPortfolio] = useState({})
 
   const handleChange = e => {
     setState({...state, [e.target.name] : e.target.value})
@@ -35,6 +40,11 @@ const Portfolio = () => {
   }
 
   useEffect(() => {
+    console.log('COMPONENT DID MOUNT')
+    dispatch(actions.getTransactions())
+  },[])
+
+  useEffect(() => {
     setState({ticker : '', qty : 0})
   }, [user.balance])
 
@@ -43,6 +53,14 @@ const Portfolio = () => {
       <div className='title'>Portfolio</div>
       <div className='content'>
         <div className='list'>
+          {Object.keys(portfolio).length ? 
+          Object.keys(portfolio).map(name => (
+            <div key={name} className='list-item'>
+              <div className='portfolio-name'>{name}</div>
+              <div className='portfolio-qty'>{portfolio[name].quantity}</div>
+              <div className='portfolio-value'>{portfolio[name].value}</div>
+            </div>
+          )) : null}
         </div>
         <div id='buy-shares'>
           <div id='balance'>{`Balance : $${user.balance}`}</div>

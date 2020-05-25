@@ -2,6 +2,7 @@ import { createUser, GOT_USER, gotUser, getUser, getMe, logout } from './user'
 import { showWarning, clearWarning, SHOW_WARNING, CLEAR_WARNING } from './warning'
 import { buyShare, UPDATED_BALANCE, updatedBalance } from './ticker'
 import { GOT_TRANSACTIONS, ADD_TRANSACTION, gotTransactions, addTransaction, getTransactions, createTransaction } from './transactions'
+import { makePortfolio, GOT_PORTFOLIO, gotPortfolio } from './portfolio'
 
 const actions = {
   createUser,
@@ -16,7 +17,9 @@ const actions = {
   gotTransactions, 
   addTransaction, 
   getTransactions, 
-  createTransaction
+  createTransaction,
+  makePortfolio,
+  gotPortfolio
 }
 
 export const actionTypes = {
@@ -25,7 +28,8 @@ export const actionTypes = {
   CLEAR_WARNING,
   UPDATED_BALANCE,
   GOT_TRANSACTIONS, 
-  ADD_TRANSACTION
+  ADD_TRANSACTION,
+  GOT_PORTFOLIO
 }
 
 export default actions

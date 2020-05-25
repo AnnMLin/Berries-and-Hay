@@ -42,10 +42,11 @@ router.post('/:id/create-transaction', (req, res, next) => {
 
 // GET all user transactions
 router.get('/:id/transactions', (req, res, next) => {
-  User.findbyPk(req.params.id)
+  User.findByPk(req.params.id)
     .then(user => {
       user.getTransactions()
         .then(transactions => {
+          console.log('TRANSACTIONS:', transactions)
           res.status(200).send(transactions)
         })
         .catch(err => {

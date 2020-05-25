@@ -1,5 +1,5 @@
 import axios from 'axios'
-// import actions from '.'
+import actions from '.'
 
 // ACTION TYPES
 export const GOT_TRANSACTIONS = 'GOT_TRANSACTIONS'
@@ -11,10 +11,17 @@ export const addTransaction = transaction => ({type: ADD_TRANSACTION, transactio
 
 // THUNK CREATOR
 export const getTransactions = () => (dispatch, getState) => {
-  const userId = getState().user.id
+  const state = getState()
+  const userId = state.user.id
   return axios.get(`/user/${userId}/transactions`)
     .then(transactions => {
-      dispatch(gotTransactions(transactions))
+      console.log(transactions.data)
+      dispatch(gotTransactions(transactions.data))
+      // .then(() => {
+        // const state = getState()
+        // const transactions = state.transactions
+        dispatch(actions.makePortfolio(transactions.data))
+      // })
     })
     .catch(err => {
       console.log('Error getting transactions:', err)
@@ -22,10 +29,16 @@ export const getTransactions = () => (dispatch, getState) => {
 }
 
 export const createTransaction = transaction => (dispatch, getState) => {
-  const userId = getState().user.id
+  const state = getState()
+  const userId = state.user.id
   return axios.post(`/user/${userId}/create-transaction`, transaction)
     .then(transaction => {
-      dispatch(addTransaction(transaction))
+      dispatch(addTransaction(transaction.data))
+      // .then(() => {
+        const state = getState()
+        const transactions = state.transactions
+        dispatch(actions.makePortfolio(transactions))
+      // })
     })
     .catch(err => {
       console.log('Error creating transaction:', err)
