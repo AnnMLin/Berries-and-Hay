@@ -37,9 +37,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // PUBLIC PATH
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')))
 app.get('*', (req, res) => {
-  res.sendFile(path.join('client', 'public', 'index.html'))
+  res.sendFile('../client/public/index.html')
 })
 
 app.use('/user', userRouter)
