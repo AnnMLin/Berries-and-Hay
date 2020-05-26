@@ -3,7 +3,8 @@ const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan')
-const session = require('express-session')
+// const session = require('express-session')
+const cookieSession = require('cookie-session')
 
 const { userRouter, authRouter } = require('./routes')
 
@@ -16,10 +17,14 @@ app.set('view engine', 'jade');
 // app.set('view engine', 'html')
 
 // SESSION MIDDLEWARE
-app.use(session({
-  secret: 'PeachyPeaches',
-  resave: false,
-  saveUninitialized: true
+// app.use(session({
+//   secret: 'PeachyPeaches',
+//   resave: false,
+//   saveUninitialized: true
+// }))
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
 }))
 
 // SESSION LOGGING MIDDLEWARE
