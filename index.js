@@ -4,10 +4,10 @@
  * Module dependencies.
  */
 
-const app = require('../server/app');
+const app = require('./server/app');
 const debug = require('debug')('002-hay-and-berries:server');
 const http = require('http');
-const db = require('../server/db')
+const db = require('./server/db')
 
 /**
  * Get port from environment and store in Express.
