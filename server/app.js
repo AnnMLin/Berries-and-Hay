@@ -15,15 +15,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // SESSION MIDDLEWARE
-app.use(session({
-  secret: 'PeachyPeaches',
-  resave: false,
-  saveUninitialized: true
-}))
-// app.use(cookieSession({
-//   name: 'session',
-//   keys: ['key1', 'key2']
+// app.use(session({
+//   secret: 'PeachyPeaches',
+//   resave: false,
+//   saveUninitialized: true
 // }))
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
 
 // SESSION LOGGING MIDDLEWARE
 app.use((req, res, next) => {
