@@ -13,15 +13,23 @@ const Transactions = () => {
 
   return (
     <div id='transactions'>
-      <div className='content'>
-        <div className='list'>
-          {transactions.map(transaction => (
-            <div key={transaction.id} className='list-item'>
-              <div className='transaction-name'>{transaction.name}</div>
-              <div className='transaction-qty'>{transaction.quantity}</div>
-              <div className='transaction-price'>{transaction.price}</div>
-            </div>
-          ))}
+      <div className='content-container'>
+        <div className='title'>Transactions</div>
+        <div className='content'>
+          <div className='list'>
+            {transactions.map(transaction => {
+              const name = transaction.name
+              const quantity = transaction.quantity
+              const price = transaction.price
+              return (
+                <div key={transaction.id} className='list-item'>
+                  <div>BUY</div>
+                  <div>{`${name} - ${quantity} Shares`}</div>
+                  <div>{`@ ${price}`}</div>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </div>

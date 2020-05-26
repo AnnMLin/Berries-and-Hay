@@ -7,18 +7,12 @@ import actions from '../store/actions'
 const Home = () => {
   const state = useSelector(state => state)
   const user = useSelector(state => state.user)
-  const dispatch = useDispatch()
 
   console.log('CURRENT STATE:', state)
-
-  // useEffect(() => {
-  //   dispatch(actions.getTransactions())
-  // })
 
   const match = useRouteMatch()
   return (
     <div id='home'>
-      <div>{user.email}</div>
       <Navbar/>
       <Switch>
         <Route path={`${match.url}/transactions`} component={Transactions} />

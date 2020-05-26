@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import actions from '../store/actions'
-import { useHistory} from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 
 const SignInForm = () => {
 
@@ -47,23 +47,30 @@ const SignInForm = () => {
   }
 
   return (
-    <form id='sign-in-form' className='form' onSubmit={handleSubmit}>
-      <div id='sign-in-email'>
-        <div>Email:</div>
-        <input type='text' name='email' value={state.email} onChange={handleChange}/>
-      </div>
-      <div id='sign-in-password'>
-        <div>Password:</div>
-        <input type='text' name='password' value={state.password} onChange={handleChange}/>
-      </div>
-      <div className='btn-container'>
-        <div className='btn-item'>
-          <div className='btn' type='submit' onClick={handleSubmit}>Submit</div>
+    <form className='form' onSubmit={handleSubmit}>
+      <div className='modal-title'>Sign In</div>
+      <div className='form-item'>
+        <div id='sign-in-email'>
+          <div>Email:</div>
+          <input type='text' name='email' value={state.email} onChange={handleChange}/>
         </div>
-        {warning ? 
-        <div className='warning'>{warning}</div>
-        : null
-        }
+        <div id='sign-in-password'>
+          <div>Password:</div>
+          <input type='text' name='password' value={state.password} onChange={handleChange}/>
+        </div>
+        <div className='btn-container'>
+          <div className='btn-item'>
+            <div className='btn' type='submit' onClick={handleSubmit}>Submit</div>
+          </div>
+          {warning ? 
+          <div className='warning'>{warning}</div>
+          : null
+          }
+        </div>
+        <div className='reminder'>
+          <div>Don't have an account?</div>
+          <Link to='/create-user' className='create-account-link'>Create an account</Link>
+        </div>
       </div>
     </form>
   )

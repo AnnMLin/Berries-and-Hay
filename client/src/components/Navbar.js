@@ -7,6 +7,7 @@ const Navbar = () => {
   const match = useRouteMatch()
   const dispatch = useDispatch()
   const history = useHistory()
+  const user = useSelector(state => state.user)
 
   const handleClick = () => {
     dispatch(actions.logout())
@@ -17,11 +18,19 @@ const Navbar = () => {
 
   return(
     <div id='navbar'>
-      <Link to={`${match.url}`}>Portfolio</Link>
-      <Link to={`${match.url}/transactions`}>Transactions</Link>
-      <div className='btn-container'>
-        <div className='btn-item'>
-          <div className='btn' onClick={handleClick}>Log out</div>
+      <div id='navbar-content'>
+        <div id='hello'>{`Hello ${user.name}!`}</div>
+        <div id='options'>
+          <div id='navs'>
+            <Link to={`${match.url}`}>Portfolio</Link>
+            <div>|</div>
+            <Link to={`${match.url}/transactions`}>Transactions</Link>
+          </div>
+          <div className='btn-container'>
+            <div className='btn-item'>
+              <div className='btn' onClick={handleClick}>Log out</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

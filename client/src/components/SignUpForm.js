@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import actions from '../store/actions'
 import { useHistory } from 'react-router-dom'
@@ -46,28 +46,35 @@ const SignUpForm = () => {
     return expression.test(String(email).toLowerCase())
   }
 
+  useEffect(() => {
+    dispatch(actions.clearWarning())
+  }, [])
+
   return (
-    <form id='sign-up-form' className='form' onSubmit={handleSubmit}>
-      <div id='sign-up-name'>
-        <div>Name:</div>
-        <input type='text' name='name' value={state.name} onChange={handleChange}/>
-      </div>
-      <div id='sign-up-email'>
-        <div>Email:</div>
-        <input type='text' name='email' value={state.email} onChange={handleChange}/>
-      </div>
-      <div id='sign-up-password'>
-        <div>Password:</div>
-        <input type='text' name='password' value={state.password} onChange={handleChange}/>
-      </div>
-      <div className='btn-container'>
-        <div className='btn-item'>
-          <div className='btn' type='submit' onClick={handleSubmit}>Submit</div>
+    <form className='form' onSubmit={handleSubmit}>
+      <div className='modal-title'>Register</div>
+      <div className='form-item'>
+        <div id='sign-up-name'>
+          <div>Name:</div>
+          <input type='text' name='name' value={state.name} onChange={handleChange}/>
         </div>
-        {warning ? 
-        <div className='warning'>{warning}</div>
-        : null
-        }
+        <div id='sign-up-email'>
+          <div>Email:</div>
+          <input type='text' name='email' value={state.email} onChange={handleChange}/>
+        </div>
+        <div id='sign-up-password'>
+          <div>Password:</div>
+          <input type='text' name='password' value={state.password} onChange={handleChange}/>
+        </div>
+        <div className='btn-container'>
+          <div className='btn-item'>
+            <div className='btn' type='submit' onClick={handleSubmit}>Submit</div>
+          </div>
+          {warning ? 
+          <div className='warning'>{warning}</div>
+          : null
+          }
+        </div>
       </div>
     </form>
   )
