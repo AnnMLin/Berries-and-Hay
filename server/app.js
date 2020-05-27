@@ -36,6 +36,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+
+app.use('/user', userRouter)
+app.use('/auth', authRouter)
+
 // PUBLIC PATH
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', 'client/build')))
@@ -51,8 +55,7 @@ else {
 }
 
 
-app.use('/user', userRouter)
-app.use('/auth', authRouter)
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
