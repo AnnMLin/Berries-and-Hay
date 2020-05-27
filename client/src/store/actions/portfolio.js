@@ -1,4 +1,5 @@
 import axios from 'axios'
+import token from '../../iexPublishableToken'
 
 // ACTION TYPES
 export const GOT_PORTFOLIO = 'GOT_PORTFOLIO'
@@ -12,7 +13,7 @@ export const gotTotalValue = totalValue => ({type: GOT_TOTAL_VALUE, totalValue})
 export const getOpenPrice = (portfolio) => dispatch => (
   Promise.all(Object.keys(portfolio).map(symbol => (
     // GET OPEN PRICE
-    axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/ohlc?token=${process.env.REACT_APP_IEX_SANDBOX_TOKEN}`)
+    axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/ohlc?token=${token}`)
       .then(res => res.data)
       .then(res => {
         if(res.open) {
@@ -55,7 +56,7 @@ export const makePortfolio = () => (dispatch, getState) => {
 
   return Promise.all(Object.keys(portfolio).map(symbol => (
     // GET SHARE CURRENT PRICE
-    axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/price?token=${process.env.REACT_APP_IEX_SANDBOX_TOKEN}`)
+    axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/price?token=${token}`)
       .then(res => res.data)
       .then(price => {
         console.log('GOT PRICE:', symbol)
