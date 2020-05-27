@@ -8,7 +8,7 @@ const SignInForm = () => {
 
   const [state, setState] = useState({email: '', password: ''})
   const warning = useSelector(state => state.warning)
-  const user = useSelector(state => state.user)
+  // const user = useSelector(state => state.user)
   
   const dispatch = useDispatch()
   const history = useHistory()
@@ -50,7 +50,7 @@ const SignInForm = () => {
 
   return (
     <form className='form' onSubmit={handleSubmit}>
-      <div className='modal-title'>Sign In {`USER: ${user}`}</div>
+      <div className='modal-title'>Sign In</div>
       <div className='form-item'>
         <div id='sign-in-email'>
           <div>Email:</div>
