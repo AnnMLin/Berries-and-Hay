@@ -37,10 +37,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // PUBLIC PATH
-app.use(express.static(path.join(__dirname, 'public')))
-app.get('*', (req, res) => {
-  res.sendFile('../client/public/index.html')
-})
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+  })
+}
+else {
+  app.use(express.static(path.join(__dirname, 'public')))
+  // app.get('*', (req, res) => {
+  //   res.sendFile(path.join(__dirname, '..', 'client', 'public', 'index.html'))
+  // })
+}
+
 
 app.use('/user', userRouter)
 app.use('/auth', authRouter)
