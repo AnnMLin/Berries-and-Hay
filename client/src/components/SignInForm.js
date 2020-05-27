@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import actions from '../store/actions'
 import { useHistory, Link } from 'react-router-dom'
+import { STATUS_CODES } from 'http';
 
 const SignInForm = () => {
 
   const [state, setState] = useState({email: '', password: ''})
   const warning = useSelector(state => state.warning)
+  const user = useSelector(state => state.user)
   
   const dispatch = useDispatch()
   const history = useHistory()
@@ -48,7 +50,7 @@ const SignInForm = () => {
 
   return (
     <form className='form' onSubmit={handleSubmit}>
-      <div className='modal-title'>Sign In</div>
+      <div className='modal-title'>Sign In {`USER: ${user}`}</div>
       <div className='form-item'>
         <div id='sign-in-email'>
           <div>Email:</div>
