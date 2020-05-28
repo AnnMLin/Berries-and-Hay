@@ -11,7 +11,7 @@ export const gotUser = user => ({type: GOT_USER, user})
 export const getUser = ({email, password}) => dispatch => (
   axios.put('/auth/login', {email, password})
   .then(user => {
-    console.log('USER in THUNK:', user)
+    // console.log('USER in THUNK:', user)
     dispatch(gotUser(user.data))
   })
   .catch(err => {
@@ -41,7 +41,7 @@ export const createUser = ({name, email, password}) => (dispatch, getState) => (
 export const getMe = () => dispatch => (
   axios.get('/auth/me')
     .then(user => {
-      console.log('ME:', user.data)
+      // console.log('ME:', user.data)
       dispatch(gotUser(user.data))
     })
     .catch(err => 
@@ -51,8 +51,10 @@ export const getMe = () => dispatch => (
 
 export const logout = () => dispatch => (
   axios.delete('/auth/logout')
-    .then(() => {
-      dispatch(gotUser({}))
+    .then(() => {      
+      dispatch(gotUser({})) 
+      dispatch(actions.clearPortfolio())
+      dispatch(actions.gotTotalValue(0))
     })
     .catch(err => {
       console.log('Error deleting user:', err)

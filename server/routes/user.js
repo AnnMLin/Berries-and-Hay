@@ -60,8 +60,4 @@ router.get('/:id/transactions', (req, res, next) => {
     })
 })
 
-router.get('/test', (req, res) => {
-  res.send('TEST ROUTE WORKING')
-})
-
 module.exports = router;

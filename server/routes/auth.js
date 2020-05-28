@@ -68,7 +68,8 @@ const userNotFound = next => {
 }
 
 router.delete('/logout', (req, res) => {
-  req.session.destroy()
+  // req.session.destroy() //this is for express-session
+  req.session = null
   res.status(204).end()
 })
 

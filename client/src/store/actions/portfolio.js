@@ -4,10 +4,12 @@ import token from '../../iexPublishableToken'
 // ACTION TYPES
 export const GOT_PORTFOLIO = 'GOT_PORTFOLIO'
 export const GOT_TOTAL_VALUE = 'GOT_TOTAL_VALUE'
+export const CLEAR_PORTFOLIO = 'CLEAR_PORTFOLIO'
 
 // ACTION CREATOR
 export const gotPortfolio = portfolio => ({type: GOT_PORTFOLIO, portfolio})
 export const gotTotalValue = totalValue => ({type: GOT_TOTAL_VALUE, totalValue})
+export const clearPortfolio = () => ({type: CLEAR_PORTFOLIO})
 
 // THUNK CREATOR
 export const getOpenPrice = (portfolio) => dispatch => (
@@ -17,7 +19,7 @@ export const getOpenPrice = (portfolio) => dispatch => (
       .then(res => res.data)
       .then(res => {
         if(res.open) {
-          console.log('OPEN PRICE:', symbol, res.open.price)
+          // console.log('OPEN PRICE:', symbol, res.open.price)
           portfolio[symbol].openPrice = res.open.price
         }
       })
@@ -29,7 +31,7 @@ export const getOpenPrice = (portfolio) => dispatch => (
       dispatch(gotPortfolio(portfolio))
     ))
     .then(() => {
-      console.log('SECOND STEP DONE!!!')
+      // console.log('SECOND STEP DONE!!!')
     })
     .catch(err => {
       console.log('Error at gotPortfolio:', err)
@@ -41,6 +43,12 @@ export const makePortfolio = () => (dispatch, getState) => {
   const state = getState()
   const transactions = state.transactions
 
+  // CONSTRUCTING PORTFOLIO BASE ON TRANSACTIONS, PORTFOLIO THEN WILL HAVE SYMBOL AS KEYS AND QUANTITY AS NESTED KEY
+  // PORTFOLIO : {
+  //   SYMBOL : {
+  //     QUANTITY : X
+  //   } 
+  // }
   const portfolio = {}
 
   transactions.forEach(transaction => {
@@ -52,6 +60,17 @@ export const makePortfolio = () => (dispatch, getState) => {
     }
   })
 
+  // MAPPING THROUGH ALL SYMBOL KEYS TO DO API CALLS AND GET CURRENT PRICE
+  // SAME TIME, ADD CURRENT VALUE TO TOTAL VALUE
+  // AFTER THIS, EACH SYMBOL KEY WILL HAVE TWO MORE KEY/VALUE PAIRS ON 'PRICE' AND 'VALUE', VALUE IS FOR DISPLAY, PRICE IS FOR COMPARING WITH OPENPRICE
+  // PORTFOLIO : {
+  //   SYMBOL : {
+  //     QUANTITY : X,
+  //     PRICE : Y,
+  //     VALUE : XY
+  //   }
+  // }
+
   let totalValue = 0
 
   return Promise.all(Object.keys(portfolio).map(symbol => (
@@ -59,12 +78,15 @@ export const makePortfolio = () => (dispatch, getState) => {
     axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/price?token=${token}`)
       .then(res => res.data)
       .then(price => {
-        console.log('GOT PRICE:', symbol)
-        const value = price * portfolio[symbol].quantity
-        portfolio[symbol].price = Number(price.toFixed(2))
-        portfolio[symbol].value = Number(value.toFixed(2))
-        totalValue += value
-        console.log('TOTALVALUE:', totalValue)
+        // console.log('GOT PRICE:', symbol)
+        // ONLY ADD PRICE & VALUE TO SYMBOL IF NOT UNDEFINED, IF UNDEFINED, USE LAST PRICE/VALUE (IF ANY)
+        if (price) {
+          const value = price * portfolio[symbol].quantity
+          portfolio[symbol].price = Number(price.toFixed(2))
+          portfolio[symbol].value = Number(value.toFixed(2))
+          totalValue += value
+        }
+        // console.log('TOTALVALUE:', totalValue)
       })
       .catch(err => {
         console.log('Error occurs at', symbol, 'Err:', err)
@@ -79,7 +101,7 @@ export const makePortfolio = () => (dispatch, getState) => {
       dispatch(getOpenPrice(portfolio))
     ))
     .then(() => {
-      console.log('FIRST STEP DONE!!!')
+      // console.log('FIRST STEP DONE!!!')
     })
     .catch(err => {
       console.log('Error at makePortfolio:', err)
