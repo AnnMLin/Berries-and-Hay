@@ -9,20 +9,11 @@ export const UPDATED_BALANCE = 'UPDATED_BALANCE'
 export const updatedBalance = balance => ({type: UPDATED_BALANCE, balance})
 
 // THUNK CREATOR
-// export const getPrice = symbol => dispatch => (
-//   axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/price?token=${process.env.REACT_APP_IEX_SANDBOX_TOKEN}`)
-//   .then(res => res.data)
-//   .then(price => {
-
-//   })
-// )
-
 export const buyShare = (symbol, qty) => (dispatch, getState) => (
   // GET TICKER
   axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/price?token=${token}`)
     .then(res => res.data)
     .then(price => {
-      console.log('PRICE:!!!!!!!!!!', price)
       const cost = price * qty
       // check if balance > cost
       const state = getState()

@@ -53,12 +53,10 @@ const Portfolio = () => {
           <div className='list'>
             {Object.keys(portfolio).length ? 
             Object.keys(portfolio).map(name => {
-              // console.log(name, ':', portfolio[name])
               const quantity = portfolio[name].quantity
               const price = portfolio[name].price
               const value = portfolio[name].value
               const openPrice = portfolio[name].openPrice
-              // console.log(price, openPrice)
               let color = ''
               if(price > openPrice) color = 'green'
               else if(price < openPrice) color = 'red'

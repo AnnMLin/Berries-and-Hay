@@ -18,10 +18,7 @@ export const getOpenPrice = (portfolio) => dispatch => (
     axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/ohlc?token=${token}`)
       .then(res => res.data)
       .then(res => {
-        if(res.open) {
-          // console.log('OPEN PRICE:', symbol, res.open.price)
-          portfolio[symbol].openPrice = res.open.price
-        }
+        if(res.open) portfolio[symbol].openPrice = res.open.price
       })
       .catch(err => {
         console.log('Error occurs at', symbol, 'Err:', err)
@@ -31,7 +28,7 @@ export const getOpenPrice = (portfolio) => dispatch => (
       dispatch(gotPortfolio(portfolio))
     ))
     .then(() => {
-      // console.log('SECOND STEP DONE!!!')
+      console.log('SECOND STEP DONE!!!')
     })
     .catch(err => {
       console.log('Error at gotPortfolio:', err)
@@ -78,7 +75,6 @@ export const makePortfolio = () => (dispatch, getState) => {
     axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/price?token=${token}`)
       .then(res => res.data)
       .then(price => {
-        // console.log('GOT PRICE:', symbol)
         // ONLY ADD PRICE & VALUE TO SYMBOL IF NOT UNDEFINED, IF UNDEFINED, USE LAST PRICE/VALUE (IF ANY)
         if (price) {
           const value = price * portfolio[symbol].quantity
@@ -86,7 +82,10 @@ export const makePortfolio = () => (dispatch, getState) => {
           portfolio[symbol].value = Number(value.toFixed(2))
           totalValue += value
         }
-        // console.log('TOTALVALUE:', totalValue)
+        // IF PRICE COMES BACK UNDEFINED, USE THE VALUE THAT'S ALREADY ON FILE FOR TOTAL VALUE
+        else if (state.portfolio[symbol]) {
+          if(state.portfolio[symbol].value) totalValue += state.portfolio[symbol].value
+        }
       })
       .catch(err => {
         console.log('Error occurs at', symbol, 'Err:', err)
@@ -101,69 +100,9 @@ export const makePortfolio = () => (dispatch, getState) => {
       dispatch(getOpenPrice(portfolio))
     ))
     .then(() => {
-      // console.log('FIRST STEP DONE!!!')
+      console.log('FIRST STEP DONE!!!')
     })
     .catch(err => {
       console.log('Error at makePortfolio:', err)
     })
-
-  // // THIS ONE GETS 429 CODE (TOO MANY API CALLS AT ONCE) FROM IEX
-  // Promise.all(Object.keys(portfolio).map(symbol => (
-  //   // GET SHARE CURRENT PRICE
-  //   axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/price?token=${process.env.REACT_APP_IEX_SANDBOX_TOKEN}`)
-  //     .then(res => res.data)
-  //     .then(price => {
-  //       const value = price * portfolio[symbol].quantity
-  //       portfolio[symbol].price = Number(price.toFixed(2))
-  //       portfolio[symbol].value = Number(value.toFixed(2))
-  //       totalValue += value
-  //       console.log('TOTALVALUE:', totalValue)
-  //     })
-  //     .then(() => (
-  //       // GET OPEN PRICE
-  //       axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/ohlc?token=${process.env.REACT_APP_IEX_SANDBOX_TOKEN}`)
-  //     ))
-  //     .then(res => {
-  //       if(res.data.open) {
-  //         console.log('OPEN PRICE:', res.data)
-  //         portfolio[symbol].openPrice = res.data.open.price
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log('Error occurs at', symbol, 'Err:', err)
-  //     })
-  // )))
-  // .then(() => {
-  //   dispatch(gotPortfolio(portfolio))
-  //   dispatch(gotTotalValue(Number(totalValue.toFixed(2))))
-  // })
-
-
-  // // THIS ONE WORKS BUT COMPONENT RENDERS BEFORE SECOND API CALL IS SAVED TO STATE
-  // Promise.all(Object.keys(portfolio).map(symbol => (
-  //   // GET SHARE CURRENT PRICE
-  //   axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/price?token=${process.env.REACT_APP_IEX_SANDBOX_TOKEN}`)
-  //     .then(res => res.data)
-  //     .then(price => {
-  //       const value = price * portfolio[symbol].quantity
-  //       portfolio[symbol].price = Number(price.toFixed(2))
-  //       portfolio[symbol].value = Number(value.toFixed(2))
-  //       totalValue += value
-  //       console.log('TOTALVALUE:', totalValue)
-  //     })
-  //     .then(() => {
-  //       // GET OPEN PRICE
-  //       axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/ohlc?token=${process.env.REACT_APP_IEX_SANDBOX_TOKEN}`)
-  //         .then(res => {
-  //           if(res.data.open) {
-  //             console.log('OPEN PRICE:', res.data)
-  //             portfolio[symbol].openPrice = res.data.open.price
-  //           }
-  //         })
-  //     })
-  // )))
-  // .then(() => {
-  //   dispatch(gotPortfolio(portfolio))
-  //   dispatch(gotTotalValue(Number(totalValue.toFixed(2))))
-  // })
 }

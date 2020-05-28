@@ -16,8 +16,6 @@ export const getTransactions = () => (dispatch, getState) => {
   const userId = state.user.id
   return axios.get(`/user/${userId}/transactions`)
     .then(transactions => {
-      console.log('TRANSACTIONS:', transactions.data)
-      console.log('PORTFOLIO:', state.portfolio)
       dispatch(gotTransactions(transactions.data))
       dispatch(actions.makePortfolio(transactions.data))
     })

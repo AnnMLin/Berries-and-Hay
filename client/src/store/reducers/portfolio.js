@@ -8,8 +8,6 @@ const initialState = {}
 const reducer = (state = initialState, action) => {
   switch(action.type) {
     case GOT_PORTFOLIO:
-      console.log('STATE:', state)
-      console.log('PORTFOLIO:', action.portfolio)
       const nextState = {...state}
       const portfolio = action.portfolio
       // RETURN INITIALSTATE, ITERATE THROUGH NESTED OBJ AND REPLACE AVAILABLE KEY/VALUE PAIRS
@@ -21,7 +19,6 @@ const reducer = (state = initialState, action) => {
           if(portfolio[symbol].openPrice) nextState[symbol].openPrice = portfolio[symbol].openPrice
         }      
       })
-      console.log('NEXTSTATE:', nextState)
       return nextState
     case CLEAR_PORTFOLIO:
       return {}

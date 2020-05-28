@@ -1,14 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Portfolio, Transactions, Navbar } from '.'
-import { Route, Switch, useRouteMatch, useHistory } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import actions from '../store/actions'
+import { Route, Switch, useRouteMatch } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const Home = () => {
   const state = useSelector(state => state)
-  const user = useSelector(state => state.user)
-
-  console.log('CURRENT STATE:', state)
 
   const match = useRouteMatch()
   return (
