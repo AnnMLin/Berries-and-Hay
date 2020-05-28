@@ -4,7 +4,7 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 const Home = () => {
-  const state = useSelector(state => state)
+  // const state = useSelector(state => state)
 
   const match = useRouteMatch()
   return (

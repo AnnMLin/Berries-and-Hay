@@ -14,6 +14,7 @@ const reducer = (state = initialState, action) => {
       Object.keys(portfolio).forEach(symbol => {
         if(!nextState[symbol]) nextState[symbol] = portfolio[symbol]
         else {
+          if(portfolio[symbol].quantity) nextState[symbol].quantity = portfolio[symbol].quantity
           if(portfolio[symbol].price) nextState[symbol].price = portfolio[symbol].price
           if(portfolio[symbol].value) nextState[symbol].value = portfolio[symbol].value
           if(portfolio[symbol].openPrice) nextState[symbol].openPrice = portfolio[symbol].openPrice

@@ -12,13 +12,16 @@ export const gotTotalValue = totalValue => ({type: GOT_TOTAL_VALUE, totalValue})
 export const clearPortfolio = () => ({type: CLEAR_PORTFOLIO})
 
 // THUNK CREATOR
-export const getOpenPrice = (portfolio) => dispatch => (
-  Promise.all(Object.keys(portfolio).map(symbol => (
+export const getOpenPrice = (portfolio) => (dispatch, getState) => {
+  const state = getState()
+  return Promise.all(Object.keys(portfolio).map(symbol => (
     // GET OPEN PRICE
     axios.get(`https://sandbox.iexapis.com/stable/stock/${symbol}/ohlc?token=${token}`)
       .then(res => res.data)
       .then(res => {
         if(res.open) portfolio[symbol].openPrice = res.open.price
+        // IF OPEN PRICE DIDN'T RETURN, USE LAST OPEN PRICE ON FILE (IF ANY)
+        else if(state.portfolio[symbol] && state.portfolio[symbol].openPrice) portfolio[symbol].openPrice = state.portfolio[symbol].openPrice
       })
       .catch(err => {
         console.log('Error occurs at', symbol, 'Err:', err)
@@ -33,7 +36,7 @@ export const getOpenPrice = (portfolio) => dispatch => (
     .catch(err => {
       console.log('Error at gotPortfolio:', err)
     })
-)
+  }
 
 export const makePortfolio = () => (dispatch, getState) => {
 
@@ -76,19 +79,17 @@ export const makePortfolio = () => (dispatch, getState) => {
       .then(res => res.data)
       .then(price => {
         // ONLY ADD PRICE & VALUE TO SYMBOL IF NOT UNDEFINED, IF UNDEFINED, USE LAST PRICE/VALUE (IF ANY)
-        if (price) {
-          const value = price * portfolio[symbol].quantity
-          portfolio[symbol].price = Number(price.toFixed(2))
-          portfolio[symbol].value = Number(value.toFixed(2))
-          totalValue += value
-        }
-        // IF PRICE COMES BACK UNDEFINED, USE THE VALUE THAT'S ALREADY ON FILE FOR TOTAL VALUE
-        else if (state.portfolio[symbol]) {
-          if(state.portfolio[symbol].value) totalValue += state.portfolio[symbol].value
-        }
+        const value = price * portfolio[symbol].quantity
+        portfolio[symbol].price = Number(price.toFixed(2))
+        portfolio[symbol].value = Number(value.toFixed(2))
+        totalValue += value
       })
       .catch(err => {
         console.log('Error occurs at', symbol, 'Err:', err)
+        // IF PRICE COMES BACK UNDEFINED, USE THE VALUE THAT'S ALREADY ON FILE FOR TOTAL VALUE
+        if(state.portfolio[symbol]){
+          totalValue += state.portfolio[symbol].value
+        }
       })
   )))
     .then(() => (
