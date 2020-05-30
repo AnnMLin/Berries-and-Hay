@@ -68,10 +68,6 @@ a:visited {
   justify-content: center;
   align-items: center;
 }
-/* 
-#create-user > .form {
-  height: 240px;
-} */
 
 .form-item > div {
   padding: 5px;
@@ -91,7 +87,6 @@ a:visited {
 }
 
 .btn:hover {
-  /* border: solid 1px; */
   cursor: pointer;
 }
 
@@ -107,12 +102,9 @@ a:visited {
 
 .warning {
   margin-top: 3px;
-  /* width: 60%; */
-  /* margin-left: 10px; */
   color: red;
   font-size: .8em;
   display: flex;
-  /* align-self: center; */
 }
 
 .reminder {
@@ -161,6 +153,12 @@ a:visited {
   font-size: var(--title-font-size);
 }
 
+@media (max-width : 400px) {
+  #hello {
+    display: none;
+  }
+}
+
 #options {
   width: 30%;
   min-width: 270px;
@@ -168,6 +166,12 @@ a:visited {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+@media (max-width : 400px) {
+  #options {
+    width: 100%;
+  }
 }
 
 #navs {
