@@ -64,7 +64,7 @@ const SignUpForm = () => {
         </div>
         <div id='sign-up-password'>
           <div>Password:</div>
-          <input type='text' name='password' value={state.password} onChange={handleChange}/>
+          <input type='password' name='password' value={state.password} onChange={handleChange}/>
         </div>
         <div className='btn-container'>
           <div className='btn-item'>
