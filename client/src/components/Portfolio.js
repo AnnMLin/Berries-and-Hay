@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import actions from '../store/actions'
-// import axios from 'axios'
 
 const Portfolio = () => {
   const user = useSelector(state => state.user)

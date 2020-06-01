@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { User } = require('../db/models')
 
-// Sign up new user
+// USER SIGN UP
 router.post('/createUser', (req, res) => {
   // CREATE USER
   User.create({
@@ -23,7 +23,7 @@ router.post('/createUser', (req, res) => {
     })
 })
 
-// Log user in
+// USER LOGIN
 router.put('/login', (req, res, next) => {
   User.findOne({
     where: {
@@ -50,7 +50,7 @@ router.put('/login', (req, res, next) => {
     .catch(next)
 })
 
-// user stays in after refresh
+// USER STAYS IN AFTER REFRESH
 router.get('/me', (req, res, next) => {
   if(!req.session.userId){
     userNotFound(next)
@@ -68,7 +68,7 @@ const userNotFound = next => {
 }
 
 router.delete('/logout', (req, res) => {
-  // req.session.destroy() //this is for express-session
+  // req.session.destroy() //THIS IS FOR EXPRESS-SESSION
   req.session = null
   res.status(204).end()
 })

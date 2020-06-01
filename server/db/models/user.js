@@ -38,7 +38,7 @@ const User = db.define('user',
 
 module.exports = User
 
-// class methods
+// CLASS METHODS
 User.generateSalt = function() {
   return crypto.randomBytes(16).toString('base64')
 }
@@ -51,7 +51,7 @@ User.encryptPassword = function(plainText, salt) {
     .digest('hex')
 }
 
-// hooks
+// HOOKS
 const setSaltAndPassword = user => {
   if(user.changed('password')){
     user.salt = User.generateSalt()
@@ -62,10 +62,10 @@ const setSaltAndPassword = user => {
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
 User.beforeBulkCreate(users => {
-  users.forEach(serSaltAndPassword) // for seeding
+  users.forEach(serSaltAndPassword) // FOR SEEDING
 })
 
-// instance methods
+// INSTANCE METHODS
 User.prototype.correctPassword = function(enteredPassword) {
   return User.encryptPassword(enteredPassword, this.salt()) === this.password()
 }

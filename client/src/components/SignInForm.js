@@ -2,13 +2,11 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import actions from '../store/actions'
 import { useHistory, Link } from 'react-router-dom'
-import { STATUS_CODES } from 'http';
 
 const SignInForm = () => {
 
   const [state, setState] = useState({email: '', password: ''})
   const warning = useSelector(state => state.warning)
-  // const user = useSelector(state => state.user)
   
   const dispatch = useDispatch()
   const history = useHistory()

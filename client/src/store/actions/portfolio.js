@@ -30,9 +30,6 @@ export const getOpenPrice = (portfolio) => (dispatch, getState) => {
     .then(() => (
       dispatch(gotPortfolio(portfolio))
     ))
-    .then(() => {
-      console.log('SECOND STEP DONE!!!')
-    })
     .catch(err => {
       console.log('Error at gotPortfolio:', err)
     })
@@ -100,9 +97,6 @@ export const makePortfolio = () => (dispatch, getState) => {
       // PASS PORTFOLIO TO NEXT THUNK (TO ADD OPEN PRICE)
       dispatch(getOpenPrice(portfolio))
     ))
-    .then(() => {
-      console.log('FIRST STEP DONE!!!')
-    })
     .catch(err => {
       console.log('Error at makePortfolio:', err)
     })

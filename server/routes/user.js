@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { User, Transaction } = require('../db/models')
 
-// Update user balance
+// UPDATE USER BALANCE
 router.put('/:id/updateBalance/:balance', (req, res, next) => {
   const balance = Number(req.params.balance)
   User.update({ balance }, {
@@ -13,7 +13,6 @@ router.put('/:id/updateBalance/:balance', (req, res, next) => {
     plain: true
   })
     .then(user => {
-      console.log('USER', user)
       res.status(200).send(user[1].dataValues.balance)
     })
     .catch(err => {
@@ -22,8 +21,7 @@ router.put('/:id/updateBalance/:balance', (req, res, next) => {
     })
 })
 
-// CREATE transaction
-
+// CREATE TRANSACTION
 router.post('/:id/create-transaction', (req, res, next) => {
   Transaction.create({
     name: req.body.name,
@@ -46,7 +44,6 @@ router.get('/:id/transactions', (req, res, next) => {
     .then(user => {
       user.getTransactions()
         .then(transactions => {
-          console.log('TRANSACTIONS:', transactions)
           res.status(200).send(transactions)
         })
         .catch(err => {
